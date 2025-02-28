@@ -1,28 +1,45 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const LoginForm: React.FC = () => {
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault(); // Предотвращаем перезагрузку страницы
-        // Здесь можно добавить логику для аутентификации
-        console.log('Nickname:', nickname);
-        console.log('Password:', password);
-        console.log('Remember Me:', rememberMe);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setErrorMessage('');
+
+        try {
+            const response = await axios.post('http://127.0.0.1:5432/login', {
+                nickname,
+                password,
+            });
+
+            console.log('Success:', response.data);
+            alert('Login Successful!');
+
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Login Failed. Please check your credentials.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="mt-24">
             <form className="max-w-2xl mx-auto" onSubmit={handleSubmit}>
+                {errorMessage && <div className="mb-4 text-red-600">{errorMessage}</div>}
                 <div className="mb-5">
                     <label htmlFor="nickname" className="block mb-2 text-sm font-medium text-gray-900">Ваш никнейм</label>
                     <input
                         type="text"
                         id="nickname"
                         value={nickname}
-                        onChange={(e) => setNickname(e.target.value)} // Обновляем состояние
+                        onChange={(e) => setNickname(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="name"
                         required
@@ -34,29 +51,18 @@ const LoginForm: React.FC = () => {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)} // Обновляем состояние
+                        onChange={(e) => setPassword(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="******"
                         required
                     />
                 </div>
-                <div className="flex items-center mb-5">
-                    <div className="flex items-center h-5">
-                        <input
-                            id="remember"
-                            type="checkbox"
-                            checked={rememberMe}
-                            onChange={(e) => setRememberMe(e.target.checked)} // Обновляем состояние
-                            className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300"
-                        />
-                    </div>
-                    <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900">Запомнить меня</label>
-                </div>
                 <button
                     type="submit"
-                    className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+                    disabled={loading}
+                    className={`text-white ${loading ? 'bg-gray-400' : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l'} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center`}
                 >
-                    Войти
+                    {loading ? 'Вход...' : 'Войти'}
                 </button>
             </form>
         </div>
