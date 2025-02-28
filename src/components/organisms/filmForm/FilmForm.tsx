@@ -18,7 +18,6 @@ const FilmForm = ({ title, imageUrl, description }: { title: string; imageUrl: s
                 <div className="grid grid-rows-4 gap-y-2 -ml-80">
                     <h1 className="text-xl font-bold">{title}</h1>
                     <p className="text-gray-700">{description}</p>
-                    <p className="text-gray-600">Автор:</p>
                     <h3 className="font-semibold">Рейтинг: ★5.4</h3>
                 </div>
             </div>
