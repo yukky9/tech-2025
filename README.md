@@ -1,46 +1,66 @@
-# Getting Started with Create React App
+# Проект "Поиск фильмов"
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Описание
 
-## Available Scripts
+Этот проект представляет собой веб-сервис для поиска фильмов, основанный на  React, Node.js, Python, FastApi. Он предоставляет пользователям возможность искать фильмы по различным критериям, таким как название, жанр, описание и ключевые слова. Особенностью проекта является использование нейросети для семантического поиска.
 
-In the project directory, you can run:
+## Функциональность
 
-### `npm start`
+*   **Поиск фильмов:** Поиск по названию, описанию.
+*   **Система рекомендаций:** Предоставление персонализированных рекомендаций фильмов на основе истории просмотров и предпочтений пользователя.
+*   **Информация о фильмах:** Отображение подробной информации о фильмах (описание, трейлеры, актеры, рейтинг, отзывы).
+*   **Управление учетными записями:** Регистрация, вход, управление профилем пользователя.
+*   **Система лайков и комментариев:** Возможность оценивать фильмы и оставлять комментарии.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Требования
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Перед запуском проекта убедитесь, что у вас установлен **Docker** (версии 27). [Ссылка на скачивание: https://www.docker.com/get-started]
 
-### `npm test`
+## Установка и Запуск (с использованием готового Docker-образа)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1.  **Получите Docker-образ:**
 
-### `npm run build`
+    *   Выполните команду в терминале:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        ```bash
+        docker pull gumke1/movie-search:latest
+        ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2.  **Запустите контейнер:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    *   Выполните команду:
 
-### `npm run eject`
+        ```bash
+        docker run -p 8000:3000 -d gumke1/movie-search:latest
+        ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3.  **Доступ к приложению:**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    *   Откройте веб-браузер и перейдите по адресу: `http://localhost:8080`).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Использование
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+*   **Регистрация и вход:** Создайте учетную запись или войдите в существующую.
+*   **Поиск фильмов:** Введите запрос в строку поиска и нажмите "Найти".
+*   **Просмотр информации о фильмах:** Кликните на название фильма, чтобы просмотреть подробную информацию.
+*   **Рекомендации:** Просмотрите раздел с персональными рекомендациями фильмов.
+*   **Лайки и комментарии:** Добовляйте фильмы в избранное и оставляйте комментарии.
 
-## Learn More
+## Дополнительная информация
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+*   **Docker Hub:**  Docker-образ доступен на https://hub.docker.com/repository/docker/gumke1.
+*   **Порты:** Убедитесь, что порт, который вы используете для доступа к приложению, не занят другими программами.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+*   **Авторы:**  имена авторов проекта
+
+## Планы на будущее
+
+Мы планируем добавить в наш сервис следующие возможности:
+
+*   Интеграция с API TMDb для получения более подробной информации о фильмах (трейлеры, актеры и т.д.).
+*   Разработка мобильного приложения для Android.
+*   Внедрение системы кеширования для улучшения производительности.
+*   Продвинутый семантический поиск с использованием нейросетей (BERT).
+*   Поддержка нескольких языков интерфейса и поиска.
+
+Мы приветствуем ваши отзывы и предложения!
