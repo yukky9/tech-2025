@@ -1,48 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 interface MovieCardProps {
-    id: number; // Идентификатор фильма для запросов
     title: string;
     description: string;
     imageUrl: string;
     link: string;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ id, title, description, imageUrl, link }) => {
-    const [likes, setLikes] = useState(0);
+const MovieCard: React.FC<MovieCardProps> = ({ title, description, imageUrl, link }) => {
     const [liked, setLiked] = useState(false);
 
-    // Получаем количество лайков при монтировании компонента
-    useEffect(() => {
-        const fetchLikes = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/movies/${id}/likes`);
-                setLikes(response.data.likes); // Предполагаем, что API возвращает объект с количеством лайков
-            } catch (error) {
-                console.error('Error fetching likes:', error);
-            }
-        };
-
-        fetchLikes();
-    }, [id]);
-
-    const handleLike = async (event: React.MouseEvent) => {
+    const handleLike = (event: React.MouseEvent) => {
         event.stopPropagation();
-        try {
-            if (liked) {
-                // Если уже лайкнули, убираем лайк
-                await axios.delete(`http://localhost:5000/movies/${id}/like`);
-                setLikes(likes - 1);
-            } else {
-                // Если не лайкнули, ставим лайк
-                await axios.post(`http://localhost:5000/movies/${id}/like`);
-                setLikes(likes + 1);
-            }
-            setLiked(!liked);
-        } catch (error) {
-            console.error('Error liking movie:', error);
-        }
+        setLiked(!liked);
     };
 
     return (
@@ -92,7 +62,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, title, description, imageUrl,
                                 d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                             />
                         </svg>
-                        <span className="ml-2">{likes}</span> {/* Отображение количества лайков */}
                     </button>
                 </div>
             </div>
@@ -101,4 +70,3 @@ const MovieCard: React.FC<MovieCardProps> = ({ id, title, description, imageUrl,
 };
 
 export default MovieCard;
-

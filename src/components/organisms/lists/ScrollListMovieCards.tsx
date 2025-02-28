@@ -79,7 +79,6 @@ const ScrollListMovieCards = () => {
                     <div key={movie.id} onClick={() => handleClick(movie.title)}
                          className="min-w-[400px] cursor-pointer">
                         <MovieCard
-                            id={movie.id}
                             title={movie.title}
                             description={movie.description}
                             imageUrl={movie.imageUrl}
