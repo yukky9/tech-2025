@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const MovieSearch: React.FC = () => {
     const [query, setQuery] = useState('');
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (query.trim()) {
-            window.location.href = `/moviesearch?query=${encodeURIComponent(query)}`;
+            try {
+                const response = await axios.get(`/api/moviesearch`, {
+                    params: { query: query }
+                });
+                console.log(response.data);
+            } catch (error) {
+                console.error('There was an error making the request:', error);
+            }
         }
     };
 

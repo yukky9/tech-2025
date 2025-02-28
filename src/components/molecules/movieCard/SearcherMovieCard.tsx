@@ -10,8 +10,7 @@ interface SearcherMovieCardProps {
 const SearcherMovieCard: React.FC<SearcherMovieCardProps> = ({ title, description, imageUrl, link }) => {
     return (
         <div className="mt-5 max-w-5xl mx-auto">
-            <a href={link}
-               className="gap-3 w-full flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 transition duration-200">
+            <a href={link} className="gap-3 w-full flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row hover:bg-gray-100 transition duration-200">
                 <img
                     className="object-cover w-full h-48 md:h-48 md:w-48 rounded-lg md:rounded-none md:rounded-l-lg"
                     src={imageUrl}

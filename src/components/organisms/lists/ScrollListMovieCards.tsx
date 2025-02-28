@@ -76,8 +76,10 @@ const ScrollListMovieCards = () => {
         <div className="max-w-6xl mx-auto">
             <div className="flex overflow-x-auto space-x-4 p-4">
                 {movies.map((movie) => (
-                    <div key={movie.id} onClick={() => handleClick(movie.title)} className="min-w-[400px] cursor-pointer">
+                    <div key={movie.id} onClick={() => handleClick(movie.title)}
+                         className="min-w-[400px] cursor-pointer">
                         <MovieCard
+                            id={movie.id}
                             title={movie.title}
                             description={movie.description}
                             imageUrl={movie.imageUrl}

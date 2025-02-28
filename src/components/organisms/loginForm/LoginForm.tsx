@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
     const [nickname, setNickname] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -13,7 +15,7 @@ const LoginForm: React.FC = () => {
         setErrorMessage('');
 
         try {
-            const response = await axios.post('http://127.0.0.1:5432/login', {
+            const response = await axios.post('/api/login', {
                 nickname,
                 password,
             });
@@ -21,9 +23,21 @@ const LoginForm: React.FC = () => {
             console.log('Success:', response.data);
             alert('Login Successful!');
 
+            localStorage.setItem('token', response.data.token);
+
+            navigate('/');
+
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('Login Failed. Please check your credentials.');
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status === 401) {
+                    setErrorMessage('Неверные учетные данные. Пожалуйста, попробуйте еще раз.');
+                } else {
+                    setErrorMessage('Ошибка входа. Пожалуйста, попробуйте позже.');
+                }
+            } else {
+                setErrorMessage('Ошибка сети. Пожалуйста, проверьте подключение к интернету.');
+            }
         } finally {
             setLoading(false);
         }
@@ -60,7 +74,8 @@ const LoginForm: React.FC = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`text-white ${loading ? 'bg-gray-400' : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l'} focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center`}
+                    className={`text-white ${loading ? 'bg-gray-400' : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l'} 
+                    focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center`}
                 >
                     {loading ? 'Вход...' : 'Войти'}
                 </button>

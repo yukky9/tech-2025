@@ -1,5 +1,3 @@
-// @ts-ignore
-
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -22,17 +20,27 @@ const RegForm: React.FC = () => {
         setErrorMessage('');
 
         try {
-            const response = await axios.post('http://localhost:5000/register', {
+            const response = await axios.post('/api/register', {
                 nickname,
                 password,
             });
 
             console.log('Registration Success:', response.data);
             alert('Регистрация успешна!');
-
         } catch (error) {
             console.error('Registration Error:', error);
-            setErrorMessage('Ошибка регистрации. Пожалуйста, попробуйте еще раз.');
+            if (axios.isAxiosError(error) && error.response) {
+                // Обработка различных статусов ошибок
+                if (error.response.status === 400) {
+                    setErrorMessage('Некорректные данные. Пожалуйста, проверьте и попробуйте снова.');
+                } else if (error.response.status === 409) {
+                    setErrorMessage('Никнейм уже занят. Пожалуйста, выберите другой.');
+                } else {
+                    setErrorMessage('Ошибка регистрации. Пожалуйста, попробуйте еще раз.');
+                }
+            } else {
+                setErrorMessage('Ошибка сети. Пожалуйста, проверьте подключение к интернету.');
+            }
         } finally {
             setLoading(false);
         }
